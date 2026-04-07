@@ -1,0 +1,21 @@
+# fly.toml - Fly.io configuration for BabyGear Price Check
+app = "babygear-price-check"
+primary_region = "bos"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  DB_PATH = "/app/data/babygear.db"
+
+[http_service]
+  internal_port = 10000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[vm]]
+  memory = "256mb"
+  cpu_kind = "shared"
+  cpus = 1
