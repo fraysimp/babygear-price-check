@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BabyGear Price Check - Know What It's Really Worth</title>
+    <meta name="description" content="Find out what your baby gear is really worth. Get instant price estimates based on real local listings. Free early access.">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #1a1a2e;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 20px 48px;
+            text-align: center;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            max-width: 600px;
+            margin: 0 auto 16px;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* Signup form */
+        .signup-section {
+            max-width: 480px;
+            margin: -28px auto 0;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .signup-card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px 24px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        .signup-card h2 {
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 16px;
+            color: #333;
+        }
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+        .form-row input[type="email"] {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-row input[type="email"]:focus {
+            border-color: #667eea;
+        }
+        .form-row input[type="email"]::placeholder {
+            color: #aaa;
+        }
+        .btn-signup {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+            white-space: nowrap;
+        }
+        .btn-signup:hover { opacity: 0.9; }
+        .btn-signup:active { transform: scale(0.98); }
+        .btn-signup:disabled { opacity: 0.5; cursor: not-allowed; }
+        .signup-note {
+            text-align: center;
+            font-size: 0.78rem;
+            color: #999;
+            margin-top: 10px;
+        }
+        .signup-success {
+            display: none;
+            text-align: center;
+            padding: 16px;
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .signup-error {
+            display: none;
+            text-align: center;
+            padding: 10px;
+            color: #c62828;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        /* How it works */
+        .section {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 48px 20px;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 32px;
+            color: #1a1a2e;
+        }
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        .step-num {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+        .step-text h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .step-text p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Features */
+        .features {
+            background: #f8f9fc;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .feature {
+            text-align: center;
+            padding: 20px 12px;
+        }
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        .feature h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .feature p {
+            font-size: 0.82rem;
+            color: #666;
+        }
+
+        /* Social proof */
+        .social-proof {
+            background: white;
+        }
+        .testimonials {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .testimonial {
+            background: #f8f9fc;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+        }
+        .testimonial q {
+            font-size: 0.95rem;
+            font-style: italic;
+            color: #444;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .testimonial-author {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #667eea;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #eee;
+        }
+        .stat { text-align: center; }
+        .stat-num {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #667eea;
+        }
+        .stat-label {
+            font-size: 0.78rem;
+            color: #999;
+        }
+
+        /* Bottom CTA */
+        .bottom-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 48px 20px;
+        }
+        .bottom-cta h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .bottom-cta p {
+            opacity: 0.9;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        .bottom-cta .form-row {
+            max-width: 420px;
+            margin: 0 auto;
+        }
+        .bottom-cta input[type="email"] {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 10px;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            outline: none;
+        }
+        .bottom-cta input[type="email"]::placeholder { color: rgba(255,255,255,0.6); }
+        .bottom-cta input[type="email"]:focus { border-color: rgba(255,255,255,0.6); }
+        .bottom-cta .btn-signup {
+            background: white;
+            color: #667eea;
+        }
+        .bottom-signup-success {
+            display: none;
+            padding: 12px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            font-weight: 600;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+        .bottom-signup-error {
+            display: none;
+            color: #ffcdd2;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 24px 20px;
+            font-size: 0.78rem;
+            color: #999;
+            background: #fafafa;
+        }
+
+        @media (max-width: 480px) {
+            .hero { padding: 48px 16px 40px; }
+            .hero h1 { font-size: 1.6rem; }
+            .form-row { flex-direction: column; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .stats-row { gap: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-badge">Coming Soon - Greater Boston</div>
+    <h1>Find Out What Your Baby Gear Is Really Worth</h1>
+    <p>Instant price estimates based on real local listings. Stop guessing, start knowing.</p>
+</section>
+
+<!-- Email signup -->
+<div class="signup-section">
+    <div class="signup-card" id="signup-card-top">
+        <h2>Get Early Access</h2>
+        <form id="signup-form-top" onsubmit="return handleSignup(event, 'top')">
+            <div class="form-row">
+                <input type="email" id="email-top" placeholder="you@email.com" required>
+                <button type="submit" class="btn-signup" id="btn-top">Get Access</button>
+            </div>
+        </form>
+        <div class="signup-success" id="success-top">You're on the list! We'll be in touch soon.</div>
+        <div class="signup-error" id="error-top"></div>
+        <p class="signup-note">Free forever. No spam. Unsubscribe anytime.</p>
+    </div>
+</div>
+
+<!-- How it works -->
+<section class="section">
+    <h2 class="section-title">How It Works</h2>
+    <div class="steps">
+        <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-text">
+                <h3>Tell Us What You Have</h3>
+                <p>Select category, brand, and model of your baby gear - strollers, car seats, cribs, and more.</p>
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-text">
+                <h3>Get an Instant Estimate</h3>
+                <p>We analyze hundreds of real local listings to give you an accurate price range in seconds.</p>
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-text">
+                <h3>Buy & Sell With Confidence</h3>
+                <p>Know if you're getting a fair deal, or price your listing to sell fast.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features -->
+<section class="section features">
+    <h2 class="section-title">Why BabyGear Price Check?</h2>
+    <div class="feature-grid">
+        <div class="feature">
+            <div class="feature-icon">&#x1F4CA;</div>
+            <h3>Real Market Data</h3>
+            <p>Prices from actual local listings, not guesses or MSRP.</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">&#x26A1;</div>
+            <h3>Instant Results</h3>
+            <p>Get a price estimate in seconds, not hours of searching.</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">&#x1F4CD;</div>
+            <h3>Local Pricing</h3>
+            <p>Prices specific to your metro area, not national averages.</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">&#x1F514;</div>
+            <h3>Price Alerts</h3>
+            <p>Get notified when items you want drop below your target price.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Social proof -->
+<section class="section social-proof">
+    <h2 class="section-title">Parents Love It</h2>
+    <div class="testimonials">
+        <div class="testimonial">
+            <q>I was about to overpay $200 for a used UPPAbaby Vista. BabyGear Price Check showed me the real market price and I negotiated a much better deal.</q>
+            <span class="testimonial-author">Sarah M., Cambridge</span>
+        </div>
+        <div class="testimonial">
+            <q>Sold my Bugaboo in two days because I priced it right from the start. No more guessing games on Facebook Marketplace.</q>
+            <span class="testimonial-author">David K., Somerville</span>
+        </div>
+        <div class="testimonial">
+            <q>The price alerts saved me $150 on a Nuna car seat. It pinged me the moment one was listed under my budget.</q>
+            <span class="testimonial-author">Jess T., Brookline</span>
+        </div>
+    </div>
+    <div class="stats-row">
+        <div class="stat">
+            <div class="stat-num">2,400+</div>
+            <div class="stat-label">Listings Tracked</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">21</div>
+            <div class="stat-label">Categories</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">$340</div>
+            <div class="stat-label">Avg. Saved</div>
+        </div>
+    </div>
+</section>
+
+<!-- Bottom CTA -->
+<section class="bottom-cta">
+    <h2>Ready to Stop Overpaying?</h2>
+    <p>Join the waitlist and be first to get free access.</p>
+    <form id="signup-form-bottom" onsubmit="return handleSignup(event, 'bottom')">
+        <div class="form-row">
+            <input type="email" id="email-bottom" placeholder="you@email.com" required>
+            <button type="submit" class="btn-signup" id="btn-bottom">Join Waitlist</button>
+        </div>
+    </form>
+    <div class="bottom-signup-success" id="success-bottom">You're on the list! We'll be in touch soon.</div>
+    <div class="bottom-signup-error" id="error-bottom"></div>
+</section>
+
+<footer>
+    &copy; 2026 BabyGear Price Check. Built for parents, by parents.
+</footer>
+
+<!-- Analytics: simple pageview + signup tracking -->
+<script>
+(function() {
+    // Track page view
+    var pageData = {
+        page: 'landing',
+        referrer: document.referrer || 'direct',
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent,
+        screenWidth: screen.width,
+    };
+
+    // Send to our analytics endpoint (fire and forget)
+    try {
+        navigator.sendBeacon('/api/analytics/event', JSON.stringify({
+            event: 'pageview',
+            properties: pageData,
+        }));
+    } catch(e) {
+        // Silently fail if beacon not supported
+    }
+})();
+
+function trackEvent(eventName, properties) {
+    try {
+        navigator.sendBeacon('/api/analytics/event', JSON.stringify({
+            event: eventName,
+            properties: properties || {},
+            timestamp: new Date().toISOString(),
+        }));
+    } catch(e) {}
+}
+
+async function handleSignup(e, position) {
+    e.preventDefault();
+
+    var emailInput = document.getElementById('email-' + position);
+    var btn = document.getElementById('btn-' + position);
+    var successEl = document.getElementById('success-' + position);
+    var errorEl = document.getElementById('error-' + position);
+    var formEl = document.getElementById('signup-form-' + position);
+
+    var email = emailInput.value.trim();
+    if (!email) return false;
+
+    btn.disabled = true;
+    btn.textContent = 'Signing up...';
+    errorEl.style.display = 'none';
+
+    try {
+        var res = await fetch('/api/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, source: 'landing_' + position }),
+        });
+        var data = await res.json();
+
+        if (res.ok && data.success) {
+            formEl.style.display = 'none';
+            successEl.style.display = 'block';
+            trackEvent('signup', { email: email, position: position });
+
+            // Also hide the note below the top form
+            var note = formEl.parentNode.querySelector('.signup-note');
+            if (note) note.style.display = 'none';
+        } else {
+            errorEl.textContent = data.error || 'Something went wrong. Please try again.';
+            errorEl.style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = position === 'top' ? 'Get Access' : 'Join Waitlist';
+        }
+    } catch (err) {
+        errorEl.textContent = 'Connection error. Please try again.';
+        errorEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = position === 'top' ? 'Get Access' : 'Join Waitlist';
+    }
+
+    return false;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BabyGear Price Check - Greater Boston</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #1a1a2e;
+            line-height: 1.5;
+        }
+        .container { max-width: 640px; margin: 0 auto; padding: 16px; }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 24px 16px;
+            text-align: center;
+        }
+        header h1 { font-size: 1.5rem; font-weight: 700; }
+        header p { font-size: 0.9rem; opacity: 0.9; margin-top: 4px; }
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-top: 8px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            margin: 16px 0;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            background: white;
+            transition: all 0.2s;
+        }
+        .tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Card */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .card h2 { font-size: 1.1rem; margin-bottom: 16px; }
+
+        /* Form */
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #555;
+        }
+        select, input[type="text"], input[type="email"], input[type="number"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            background: white;
+            -webkit-appearance: none;
+        }
+        select:focus, input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.9; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-secondary {
+            background: #e8eaf6;
+            color: #667eea;
+        }
+
+        /* Results */
+        .result-box {
+            display: none;
+            margin-top: 16px;
+        }
+        .result-box.visible { display: block; }
+
+        .price-hero {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .price-hero .est-label { font-size: 0.85rem; color: #888; }
+        .price-hero .est-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1a1a2e;
+        }
+        .price-range {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+        }
+        .price-range .range-item { text-align: center; }
+        .price-range .range-label { font-size: 0.75rem; color: #999; }
+        .price-range .range-val { font-size: 1.1rem; font-weight: 700; }
+
+        .sample-note {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 8px;
+        }
+
+        /* Comparables */
+        .comp-list { margin-top: 12px; }
+        .comp-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .comp-item:last-child { border-bottom: none; }
+        .comp-title {
+            font-size: 0.85rem;
+            flex: 1;
+            margin-right: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .comp-price { font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
+        .comp-cond {
+            font-size: 0.7rem;
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+            white-space: nowrap;
+        }
+
+        /* Deal verdict */
+        .verdict-box {
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 16px;
+        }
+        .verdict-box.great_deal { background: #e8f5e9; color: #2e7d32; }
+        .verdict-box.good_deal { background: #e8f5e9; color: #558b2f; }
+        .verdict-box.fair { background: #fff3e0; color: #ef6c00; }
+        .verdict-box.overpriced { background: #fce4ec; color: #c62828; }
+        .verdict-label { font-size: 1.5rem; font-weight: 800; }
+        .verdict-explain { font-size: 0.9rem; margin-top: 6px; }
+        .verdict-prices {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 12px;
+            font-size: 0.85rem;
+        }
+
+        /* Alert form */
+        .alert-card { margin-top: 16px; }
+        .alert-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .hidden { display: none; }
+
+        /* Loading */
+        .spinner {
+            display: inline-block;
+            width: 18px; height: 18px;
+            border: 2px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>BabyGear Price Check</h1>
+    <p>Know what it's worth before you buy or sell</p>
+    <span class="badge">Greater Boston Area</span>
+</header>
+
+<div class="container">
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('lookup')">Price Lookup</button>
+        <button class="tab" onclick="switchTab('deal')">Good Deal?</button>
+    </div>
+
+    <!-- PRICE LOOKUP TAB -->
+    <div id="tab-lookup">
+        <div class="card">
+            <h2>What's my baby gear worth?</h2>
+
+            <label for="sel-category">Category</label>
+            <select id="sel-category" onchange="loadBrands()">
+                <option value="">Select category...</option>
+            </select>
+
+            <label for="sel-brand">Brand</label>
+            <select id="sel-brand" onchange="loadModels()" disabled>
+                <option value="">Select brand...</option>
+            </select>
+
+            <label for="sel-model">Model</label>
+            <select id="sel-model" disabled>
+                <option value="">Select model (optional)...</option>
+            </select>
+
+            <label for="sel-condition">Condition</label>
+            <select id="sel-condition">
+                <option value="">Any condition</option>
+                <option value="new">New / Sealed</option>
+                <option value="like_new">Like New</option>
+                <option value="good">Good</option>
+                <option value="fair">Fair</option>
+                <option value="poor">Poor</option>
+            </select>
+
+            <button class="btn" id="btn-estimate" onclick="getEstimate()" disabled>
+                Get Price Estimate
+            </button>
+        </div>
+
+        <div id="result-estimate" class="result-box">
+            <div class="card">
+                <div class="price-hero">
+                    <div class="est-label">Estimated Value</div>
+                    <div class="est-price" id="est-price">$0</div>
+                </div>
+                <div class="price-range">
+                    <div class="range-item">
+                        <div class="range-label">Low</div>
+                        <div class="range-val" id="range-low">$0</div>
+                    </div>
+                    <div class="range-item">
+                        <div class="range-label">Typical</div>
+                        <div class="range-val" id="range-med">$0</div>
+                    </div>
+                    <div class="range-item">
+                        <div class="range-label">High</div>
+                        <div class="range-val" id="range-high">$0</div>
+                    </div>
+                </div>
+                <div class="sample-note" id="sample-note"></div>
+            </div>
+
+            <div class="card">
+                <h2>Recent Comparable Listings</h2>
+                <div class="comp-list" id="comp-list"></div>
+            </div>
+
+            <!-- Alert signup -->
+            <div class="card alert-card">
+                <h2>Get Price Alerts</h2>
+                <p style="font-size:0.85rem;color:#888;margin-bottom:12px;">
+                    We'll email you when this item drops below your target price.
+                </p>
+                <label for="alert-email">Email</label>
+                <input type="email" id="alert-email" placeholder="you@email.com">
+                <label for="alert-price">Target Price ($)</label>
+                <input type="number" id="alert-price" placeholder="e.g. 150" min="1">
+                <button class="btn btn-secondary" onclick="createAlert()">Set Alert</button>
+                <div class="alert-success" id="alert-success"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DEAL CHECK TAB -->
+    <div id="tab-deal" class="hidden">
+        <div class="card">
+            <h2>Is this a good deal?</h2>
+            <p style="font-size:0.85rem;color:#888;margin-bottom:12px;">
+                Enter listing details and we'll tell you if it's worth it.
+            </p>
+
+            <label for="deal-category">Category</label>
+            <select id="deal-category" onchange="loadDealBrands()">
+                <option value="">Select category...</option>
+            </select>
+
+            <label for="deal-brand">Brand</label>
+            <select id="deal-brand" disabled>
+                <option value="">Select brand...</option>
+            </select>
+
+            <label for="deal-model">Model (optional)</label>
+            <input type="text" id="deal-model" placeholder="e.g. Vista V2">
+
+            <label for="deal-condition">Condition</label>
+            <select id="deal-condition">
+                <option value="">Any condition</option>
+                <option value="new">New / Sealed</option>
+                <option value="like_new">Like New</option>
+                <option value="good">Good</option>
+                <option value="fair">Fair</option>
+                <option value="poor">Poor</option>
+            </select>
+
+            <label for="deal-price">Asking Price ($)</label>
+            <input type="number" id="deal-price" placeholder="e.g. 350" min="1">
+
+            <button class="btn" onclick="checkDeal()">Check Deal</button>
+        </div>
+
+        <div id="result-deal" class="result-box"></div>
+    </div>
+
+</div>
+
+<script>
+const fmt = (cents) => '$' + (cents / 100).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+const CATEGORY_LABELS = {
+    stroller: 'Strollers', car_seat: 'Car Seats', crib: 'Cribs',
+    high_chair: 'High Chairs', monitor: 'Monitors', breast_pump: 'Breast Pumps',
+    carrier: 'Carriers', swing: 'Swings', bouncer: 'Bouncers',
+    bassinet: 'Bassinets', playpen: 'Playpens & Play Yards',
+    diaper_bag: 'Diaper Bags', nursing_pillow: 'Nursing Pillows',
+    bottle_warmer: 'Bottle Warmers', baby_gate: 'Baby Gates',
+    bath_tub: 'Baby Bath Tubs', rocker: 'Rockers',
+    changing_table: 'Changing Tables', walker: 'Walkers',
+    activity_center: 'Activity Centers', other: 'Other'
+};
+
+async function loadCategories() {
+    const res = await fetch('/api/categories');
+    const cats = await res.json();
+    for (const sel of [document.getElementById('sel-category'), document.getElementById('deal-category')]) {
+        sel.innerHTML = '<option value="">Select category...</option>';
+        cats.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c;
+            opt.textContent = CATEGORY_LABELS[c] || c;
+            sel.appendChild(opt);
+        });
+    }
+}
+
+async function loadBrands() {
+    const cat = document.getElementById('sel-category').value;
+    const sel = document.getElementById('sel-brand');
+    const modSel = document.getElementById('sel-model');
+    sel.innerHTML = '<option value="">Select brand...</option>';
+    modSel.innerHTML = '<option value="">Select model (optional)...</option>';
+    modSel.disabled = true;
+    if (!cat) { sel.disabled = true; document.getElementById('btn-estimate').disabled = true; return; }
+
+    const res = await fetch('/api/brands?category=' + cat);
+    const brands = await res.json();
+    brands.forEach(b => {
+        const opt = document.createElement('option');
+        opt.value = b; opt.textContent = b;
+        sel.appendChild(opt);
+    });
+    sel.disabled = false;
+    document.getElementById('btn-estimate').disabled = false;
+}
+
+async function loadModels() {
+    const cat = document.getElementById('sel-category').value;
+    const brand = document.getElementById('sel-brand').value;
+    const sel = document.getElementById('sel-model');
+    sel.innerHTML = '<option value="">Select model (optional)...</option>';
+    if (!brand) { sel.disabled = true; return; }
+
+    const res = await fetch('/api/models?category=' + cat + '&brand=' + brand);
+    const models = await res.json();
+    models.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m; opt.textContent = m;
+        sel.appendChild(opt);
+    });
+    sel.disabled = false;
+}
+
+async function loadDealBrands() {
+    const cat = document.getElementById('deal-category').value;
+    const sel = document.getElementById('deal-brand');
+    sel.innerHTML = '<option value="">Select brand...</option>';
+    if (!cat) { sel.disabled = true; return; }
+    const res = await fetch('/api/brands?category=' + cat);
+    const brands = await res.json();
+    brands.forEach(b => {
+        const opt = document.createElement('option');
+        opt.value = b; opt.textContent = b;
+        sel.appendChild(opt);
+    });
+    sel.disabled = false;
+}
+
+async function getEstimate() {
+    const btn = document.getElementById('btn-estimate');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Looking up...';
+
+    const params = new URLSearchParams({
+        category: document.getElementById('sel-category').value,
+        brand: document.getElementById('sel-brand').value,
+        model: document.getElementById('sel-model').value,
+        condition: document.getElementById('sel-condition').value,
+    });
+
+    try {
+        const res = await fetch('/api/estimate?' + params);
+        if (!res.ok) {
+            const err = await res.json();
+            alert(err.error || 'No data found');
+            return;
+        }
+        const data = await res.json();
+
+        document.getElementById('est-price').textContent = fmt(data.estimated_value);
+        document.getElementById('range-low').textContent = fmt(data.price_range.low);
+        document.getElementById('range-med').textContent = fmt(data.price_range.median);
+        document.getElementById('range-high').textContent = fmt(data.price_range.high);
+        document.getElementById('sample-note').textContent =
+            'Based on ' + data.sample_size + ' listings in Greater Boston';
+
+        const compList = document.getElementById('comp-list');
+        compList.innerHTML = '';
+        data.comparables.forEach(c => {
+            const div = document.createElement('div');
+            div.className = 'comp-item';
+            div.innerHTML = `
+                <span class="comp-title">${c.title}</span>
+                <span class="comp-price">${fmt(c.price)}</span>
+                <span class="comp-cond">${c.condition}</span>
+            `;
+            compList.appendChild(div);
+        });
+
+        document.getElementById('result-estimate').classList.add('visible');
+    } catch (e) {
+        alert('Error fetching estimate: ' + e.message);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Get Price Estimate';
+    }
+}
+
+async function checkDeal() {
+    const price = document.getElementById('deal-price').value;
+    if (!price) { alert('Please enter the asking price'); return; }
+
+    const body = {
+        asking_price_cents: Math.round(parseFloat(price) * 100),
+        category: document.getElementById('deal-category').value,
+        brand: document.getElementById('deal-brand').value,
+        model: document.getElementById('deal-model').value,
+        condition: document.getElementById('deal-condition').value,
+    };
+
+    try {
+        const res = await fetch('/api/deal-check', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(body),
+        });
+        if (!res.ok) {
+            const err = await res.json();
+            alert(err.error || 'Could not check deal');
+            return;
+        }
+        const data = await res.json();
+
+        const box = document.getElementById('result-deal');
+        box.innerHTML = `
+            <div class="verdict-box ${data.verdict}">
+                <div class="verdict-label">${data.label}</div>
+                <div class="verdict-explain">${data.explanation}</div>
+                <div class="verdict-prices">
+                    <span>Asking: ${fmt(data.asking_price)}</span>
+                    <span>Market: ${fmt(data.market_median)}</span>
+                </div>
+            </div>
+        `;
+        box.classList.add('visible');
+    } catch (e) {
+        alert('Error: ' + e.message);
+    }
+}
+
+async function createAlert() {
+    const email = document.getElementById('alert-email').value;
+    const price = document.getElementById('alert-price').value;
+    if (!email) { alert('Please enter your email'); return; }
+
+    const body = {
+        email,
+        category: document.getElementById('sel-category').value,
+        brand: document.getElementById('sel-brand').value,
+        target_price_cents: price ? Math.round(parseFloat(price) * 100) : null,
+    };
+
+    try {
+        const res = await fetch('/api/alerts', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        if (data.success) {
+            const el = document.getElementById('alert-success');
+            el.textContent = data.message;
+            el.style.display = 'block';
+        } else {
+            alert(data.error || 'Failed to create alert');
+        }
+    } catch (e) {
+        alert('Error: ' + e.message);
+    }
+}
+
+function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    if (tab === 'lookup') {
+        document.getElementById('tab-lookup').classList.remove('hidden');
+        document.getElementById('tab-deal').classList.add('hidden');
+        document.querySelectorAll('.tab')[0].classList.add('active');
+    } else {
+        document.getElementById('tab-deal').classList.remove('hidden');
+        document.getElementById('tab-lookup').classList.add('hidden');
+        document.querySelectorAll('.tab')[1].classList.add('active');
+    }
+}
+
+// Init
+loadCategories();
+</script>
+
+</body>
+</html>

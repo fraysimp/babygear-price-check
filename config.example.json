@@ -1,0 +1,26 @@
+{
+  "db_path": "data/babygear.db",
+  "metro_areas": [
+    {
+      "name": "boston_ma",
+      "fb_location_id": "boston",
+      "craigslist_subdomain": "boston",
+      "offerup_location": "boston-ma",
+      "latitude": 42.3601,
+      "longitude": -71.0589,
+      "radius_miles": 30
+    }
+  ],
+  "categories": [
+    "stroller", "car_seat", "crib", "high_chair",
+    "monitor", "breast_pump", "carrier"
+  ],
+  "platforms": ["facebook_marketplace"],
+  "request_delay_seconds": 2.0,
+  "max_delay_seconds": 5.0,
+  "max_pages_per_category": 10,
+  "max_retries": 3,
+  "headless": true,
+  "schedule_hour": 6,
+  "schedule_minute": 0
+}

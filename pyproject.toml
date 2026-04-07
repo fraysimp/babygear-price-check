@@ -1,0 +1,29 @@
+[project]
+name = "babygear"
+version = "0.1.0"
+description = "Baby gear price calculator - scraper and web app"
+requires-python = ">=3.10"
+dependencies = [
+    "playwright>=1.40.0",
+    "beautifulsoup4>=4.12.0",
+    "httpx>=0.25.0",
+    "sqlite-utils>=3.35",
+    "click>=8.1.0",
+    "pydantic>=2.5.0",
+    "apscheduler>=3.10.0",
+    "tenacity>=8.2.0",
+    "fake-useragent>=1.4.0",
+    "rich>=13.0.0",
+    "flask>=3.0.0",
+]
+
+[project.scripts]
+babygear-scraper = "babygear_scraper.cli:main"
+babygear-web = "babygear_web.app:app.run"
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

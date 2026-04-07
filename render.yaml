@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: babygear-price-check
+    runtime: docker
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: DB_PATH
+        value: /app/data/babygear.db

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx playwright:*)",
+      "Bash(python -m babygear_scraper.cli --config config.visible.json scrape)",
+      "Bash(python:*)"
+    ]
+  }
+}

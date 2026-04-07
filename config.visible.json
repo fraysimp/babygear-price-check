@@ -1,0 +1,23 @@
+{
+  "db_path": "data/babygear.db",
+  "metro_areas": [
+    {
+      "name": "boston_ma",
+      "fb_location_id": "boston",
+      "craigslist_subdomain": "boston",
+      "offerup_location": "boston-ma",
+      "latitude": 42.3601,
+      "longitude": -71.0589,
+      "radius_miles": 30
+    }
+  ],
+  "categories": ["stroller", "car_seat"],
+  "platforms": ["facebook_marketplace"],
+  "request_delay_seconds": 3.0,
+  "max_delay_seconds": 6.0,
+  "max_pages_per_category": 3,
+  "max_retries": 2,
+  "headless": false,
+  "schedule_hour": 6,
+  "schedule_minute": 0
+}
